@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "../api/api.js";
 import Card from "./Card.jsx";
-import '../styles/Game.css'
+import "../styles/Game.css";
 
-function Game() {
+function Game({ setScore, setHighScore, score, highScore }) {
   const [items, setItems] = useState([]);
+  const [pressed, setPressed] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -26,7 +27,7 @@ function Game() {
       return pokemons;
     } catch (error) {
       console.error("Error in fetchData: " + error);
-      return []
+      return [];
     }
   };
 
@@ -38,12 +39,29 @@ function Game() {
     effect();
   }, []);
 
+  function handleClick(pokemon) {
+    if (pressed.includes(pokemon)) {
+      setHighScore(Math.max(highScore, score));
+      setScore(0);
+      setPressed([]);
+    } else {
+      setScore(score + 1);
+      setPressed([...pressed, pokemon]);
+    }
+  }
+
   return (
-      <div className={'game'}>
-          {items.map((item, index) => (
-              <Card key={index} img={item.img} name={item.name} />
-          ))}
-      </div> )
+    <div className={"game"}>
+      {items.map((item, index) => (
+        <Card
+          key={index}
+          img={item.img}
+          name={item.name}
+          onClick={handleClick}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default Game;

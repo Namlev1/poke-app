@@ -1,6 +1,6 @@
 import '../styles/Header.css'
 
-function Header() {
+function Header({score, highScore}) {
   return (
     <header>
       <div>
@@ -11,8 +11,8 @@ function Header() {
         </p>
       </div>
       <div>
-        <p>Score: X</p>
-          <p>Best score: X</p>
+        <p>Score: {score}</p>
+          <p>Best score: {highScore}</p>
       </div>
     </header>
   );
