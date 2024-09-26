@@ -39,6 +39,18 @@ function Game({ setScore, setHighScore, score, highScore }) {
     effect();
   }, []);
 
+  // Fisher-Yates (Knuth) shuffle algorithm.
+  function shuffle(){
+    const shuffledArray = items.slice();
+
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+
+    setItems(shuffledArray);
+  }
+
   function handleClick(pokemon) {
     if (pressed.includes(pokemon)) {
       setHighScore(Math.max(highScore, score));
@@ -48,6 +60,7 @@ function Game({ setScore, setHighScore, score, highScore }) {
       setScore(score + 1);
       setPressed([...pressed, pokemon]);
     }
+    shuffle()
   }
 
   return (
