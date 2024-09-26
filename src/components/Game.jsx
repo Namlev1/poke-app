@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api/api.js";
 import Card from "./Card.jsx";
+import '../styles/Game.css'
 
 function Game() {
   const [items, setItems] = useState([]);
