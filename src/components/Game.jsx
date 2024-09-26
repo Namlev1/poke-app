@@ -9,7 +9,7 @@ function Game({ setScore, setHighScore, score, highScore }) {
 
   const fetchData = async () => {
     try {
-      const pokemons = await Promise.all(
+      return await Promise.all(
         Object.keys(api).map(async (pokemon) => {
           const response = await fetch(api[pokemon]);
           if (!response.ok) {
@@ -24,7 +24,6 @@ function Game({ setScore, setHighScore, score, highScore }) {
           };
         }),
       );
-      return pokemons;
     } catch (error) {
       console.error("Error in fetchData: " + error);
       return [];
@@ -40,12 +39,15 @@ function Game({ setScore, setHighScore, score, highScore }) {
   }, []);
 
   // Fisher-Yates (Knuth) shuffle algorithm.
-  function shuffle(){
+  function shuffle() {
     const shuffledArray = items.slice();
 
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
     }
 
     setItems(shuffledArray);
@@ -60,7 +62,7 @@ function Game({ setScore, setHighScore, score, highScore }) {
       setScore(score + 1);
       setPressed([...pressed, pokemon]);
     }
-    shuffle()
+    shuffle();
   }
 
   return (
